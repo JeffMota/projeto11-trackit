@@ -51,12 +51,19 @@ export const FormSignIn = styled.form`
     }
 
     >button{
+        display: flex;
+        justify-content: center;
+        align-items:center;
         background-color: #52B6FF;
         color: #ffff;
 
         font-size: 20px;
 
         border: none;
+    }
+
+    >button:disabled{
+        background-color: #52B6FF;
     }
 
 `

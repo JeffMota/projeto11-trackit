@@ -1,3 +1,4 @@
+import axios from "axios"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import logo from "../../assets/img/logo.png"
@@ -14,10 +15,23 @@ export default function Login(){
 
     function sendLoginRequest(e){
         e.preventDefault()
-
         setLoading(true)
-        console.log(email)
-        console.log(password)
+
+        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
+
+        const body = {
+            email: email,
+            password: password
+        }
+
+        const promise = axios.post(URL, body)
+        promise.then(res => console.log(res))
+        promise.catch(err => {
+            console.log(err)
+            setLoading(false)
+            alert("Email ou senha incorretos")
+        })
+
     }
 
     return(
@@ -26,9 +40,9 @@ export default function Login(){
                 <img src={logo} alt="logo"/>
             </LogoContainer>
             <FormLogin onSubmit={e => sendLoginRequest(e)}>
-                <input onChange={e => setEmail(e.target.value)} required placeholder="email" type="email"/>
-                <input onChange={e => setPassword(e.target.value)} required placeholder="senha" type="password"/>
-                <ButtonSubmit text={loading ? <Loading /> : "Entrar"}/>
+                <input disabled={loading} onChange={e => setEmail(e.target.value)} required placeholder="email" type="email"/>
+                <input disabled={loading} onChange={e => setPassword(e.target.value)} required placeholder="senha" type="password"/>
+                <ButtonSubmit disabled={loading} text={loading ? <Loading /> : "Entrar"}/>
             </FormLogin>
             <Link to={"/cadastro"}>Não tem uma conta? Cadastre-se!</Link>
         </LoginContainer>

@@ -62,4 +62,9 @@ export const FormLogin = styled.form`
         border: none;
     }
 
+    >button:disabled{
+        opacity: 0.7;
+    }
+
+
 `

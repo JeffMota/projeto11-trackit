@@ -1,6 +1,6 @@
 
-export default function ButtonSubmit({text}){
+export default function ButtonSubmit({text, disabled}){
     return(
-        <button type="submit">{text}</button>
+        <button disabled={disabled} type="submit">{text}</button>
     )
 }
