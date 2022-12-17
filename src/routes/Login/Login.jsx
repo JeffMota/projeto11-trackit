@@ -1,6 +1,7 @@
 import axios from "axios"
+import { useEffect } from "react"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import logo from "../../assets/img/logo.png"
 import ButtonSubmit from "../../components/ButtonSubmit"
 import Loading from "../../components/Loading"
@@ -9,9 +10,18 @@ import { LogoContainer, LoginContainer, FormLogin } from "./LoginStyle"
 
 export default function Login(){
 
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(localStorage.getItem('user')){
+            navigate("/habitos")
+        }
+    },[])
 
     function sendLoginRequest(e){
         e.preventDefault()
@@ -25,7 +35,11 @@ export default function Login(){
         }
 
         const promise = axios.post(URL, body)
-        promise.then(res => console.log(res))
+        promise.then(res => {
+            localStorage.setItem("user", JSON.stringify(res.data))
+            navigate("/habitos")
+            console.log(res)
+        })
         promise.catch(err => {
             console.log(err)
             setLoading(false)
