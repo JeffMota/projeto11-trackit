@@ -61,6 +61,10 @@ const Hoje = styled.div`
     left: calc(50vw - 45.5px);
     bottom: 10px;
 
+    :hover{
+        cursor: pointer;
+    }
+
 `
 
 const Habitos = styled.div`
@@ -72,6 +76,10 @@ const Habitos = styled.div`
     color: #52B6FF;
 
     margin-right:50px;
+
+    :hover{
+        cursor: pointer;
+    }
 
 `
 const Historico = styled.div`

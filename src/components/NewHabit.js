@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import styled from "styled-components"
 import GlobalContext from "../contexts/GlobalContext"
 import axios from "axios"
+import { ThreeDots } from  'react-loader-spinner'
 
 export default function NewHabit({setAdding}) {
     const daysList = [
@@ -18,6 +19,7 @@ export default function NewHabit({setAdding}) {
     const {formInfos, setFormInfos, user, setList, List} = useContext(GlobalContext)
     const [selectedDays, setSelectedDays] = useState(formInfos.days)
     const [name, setName] = useState(formInfos.name)
+    const [loading, setLoading] = useState(false)
 
     function selectDay(day) {
         if (selectedDays.includes(day)) {
@@ -38,13 +40,26 @@ export default function NewHabit({setAdding}) {
         }
     }
 
+    function changeName(value){
+        setName(value)
+        let aux = [...selectedDays]
+        setSelectedDays(aux)
+        setFormInfos({
+            name: value,
+            days: aux
+        })
+    }
+
     function getList(habit){
         let aux = [...List, habit]
         setList(aux)
+        setLoading(false)
+        
     }
 
     function sendHabit(e){
         e.preventDefault()
+        setLoading(true)
 
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
         const config = {
@@ -56,27 +71,41 @@ export default function NewHabit({setAdding}) {
         const promise = axios.post(URL, formInfos, config)
         promise.then(res => getList(res.data))
         promise.catch(err => console.log(err))
+
+        console.log(formInfos)
     }
 
 
     return (
         <NewContainer onSubmit={(e) => sendHabit(e)}>
             <HabitName>
-                <input value={name} onChange={(e) => setName(e.target.value)} placeholder="nome do hábito" />
+                <input value={name} onChange={(e) => changeName(e.target.value)} placeholder="nome do hábito" />
                 <div>
                     {daysList.map(day =>
                         <DaysBtn
                             key={day.id}
                             selected={(selectedDays.includes(day.id)) ? true : false}
                             onClick={() => selectDay(day.id)}
-                            type="button"    
+                            type="button"
                         >{day.name}
                         </DaysBtn>)}
                 </div>
             </HabitName>
             <ButtonsCont>
                 <Cancel onClick={() => setAdding(false)} type="button">Cancelar</Cancel>
-                <Save type="submit">Salvar</Save>
+                <Save type="submit">
+                    {(loading) ? 
+                    <ThreeDots 
+                        height="15" 
+                        width="80" 
+                        radius="9"
+                        color="#ffff" 
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClassName=""
+                        visible={true}
+                    /> : "Salvar"}
+                </Save>
             </ButtonsCont>
         </NewContainer>
     )

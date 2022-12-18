@@ -8,6 +8,9 @@ const GlobalStyle = createGlobalStyle`
 
         font-family: 'Lexend Deca', sans-serif;
     }
+    body{
+        background-color: #F2F2F2;
+    }
 `
 
 export default GlobalStyle

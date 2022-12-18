@@ -11,7 +11,7 @@ export default function Habits(){
     const user = JSON.parse(localStorage.getItem('user'))
     const token = user.token
 
-    const {List, setList} = useContext(GlobalContext)
+    const {List, setList, update} = useContext(GlobalContext)
     const [adding, setAdding] = useState(false)
 
     useEffect(() => {
@@ -23,10 +23,11 @@ export default function Habits(){
         }
 
         const promise = axios.get(URL, config)
-        promise.then(res => setList(res.data))
+        promise.then(res => {setList(res.data)
+        console.log(res.data)})
         promise.catch(err => console.log(err))
 
-    }, [])
+    }, [update])
 
     function newHabit(){
         if(!adding){
@@ -45,7 +46,7 @@ export default function Habits(){
             <HabitsList>
                 {(adding) && <NewHabit user={user} setAdding={setAdding}/>}
                 {(List.length === 0) ? <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>:
-                List.map(habit => <HabitCard key={habit.name} name={habit.name} days={habit.days}/>)
+                List.map(habit => <HabitCard key={habit.name} name={habit.name} days={habit.days} id={habit.id}/>)
             }
             </HabitsList>
             <Menu />
@@ -54,11 +55,16 @@ export default function Habits(){
 }
 
 const HabitsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    padding: 90px 20px;
+    height: 800px;
+    margin-top: 70px;
+    padding: 20px;
     height: 100vh;
 
-    background-color: #F2F2F2;
+    background-color: #dbdbdb;
+
 `
 
 const Title = styled.div`
@@ -91,6 +97,8 @@ const Title = styled.div`
 
 const HabitsList = styled.div`
     margin-top: 30px;
+
+    padding-bottom: 100px;
     
     >p{
         font-size: 22.47px;

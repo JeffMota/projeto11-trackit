@@ -10,10 +10,11 @@ function App() {
   const [user, setUser] = useState(null)
   const [formInfos, setFormInfos] =useState({name: '', days: []})
   const [List, setList] = useState([])
+  const [update, setUpdate] = useState(false)
 
   return (
     <BrowserRouter>
-      <GlobalContext.Provider value={{user, setUser, formInfos, setFormInfos, List, setList}}>
+      <GlobalContext.Provider value={{user, setUser, formInfos, setFormInfos, List, setList, update, setUpdate}}>
         <Routes>
           <Route path={"/"} element={<Login />} />
           <Route path={"/cadastro"} element={<SignIn />} />

@@ -9,6 +9,8 @@ export const LoginContainer = styled.div`
     display: flex;
     flex-direction: column;
 
+    background-color: #ffffff;
+
     >a{
         color: #52B6FF;
     }

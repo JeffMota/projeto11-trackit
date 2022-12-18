@@ -29,6 +29,8 @@ const HeaderContainer = styled.div`
     left: 0;
     top: 0;
 
+    z-index: 1;
+
     background-color: #126BA5;
 `
 
