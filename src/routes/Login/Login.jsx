@@ -41,7 +41,6 @@ export default function Login(){
 
             setUser(res.data)
             navigate("/habitos")
-            console.log(res.data)
         })
         promise.catch(err => {
             console.log(err)

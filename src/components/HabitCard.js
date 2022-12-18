@@ -7,38 +7,30 @@ import { ThreeDots } from 'react-loader-spinner'
 
 export default function HabitCard({ name, days, id }) {
 
-    const { user, List, setList, setUpdate, update } = useContext(GlobalContext)
+    const { user, List, setList, setUpdate, update, daysList } = useContext(GlobalContext)
     const [loading, setLoading] = useState(false)
 
-    const daysList = [
-        { id: 1, name: 'D' },
-        { id: 2, name: 'S' },
-        { id: 3, name: 'T' },
-        { id: 4, name: 'Q' },
-        { id: 5, name: 'Q' },
-        { id: 6, name: 'S' },
-        { id: 7, name: 'S' }
-    ]
-
     function deleteHabit() {
-        setLoading(true)
+        if(window.confirm('Desejadeletar esse hábito?')) {
+            setLoading(true)
 
-        const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`
-        const config = {
-            headers: {
-                'Authorization': `Bearer ${user.token}`
+            const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
             }
-        }
 
-        const promise = axios.delete(URL, config)
-        promise.then(res => {
-            console.log(res)
-            if (update) {
-                setUpdate(false)
-            } else setUpdate(true)
-            setLoading(false)
-        })
-        promise.catch(err => console.log(err))
+            const promise = axios.delete(URL, config)
+            promise.then(res => {
+                console.log(res)
+                if (update) {
+                    setUpdate(false)
+                } else setUpdate(true)
+                setLoading(false)
+            })
+            promise.catch(err => console.log(err))
+        }
     }
 
     return (

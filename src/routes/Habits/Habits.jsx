@@ -11,9 +11,10 @@ export default function Habits(){
     const user = JSON.parse(localStorage.getItem('user'))
     const token = user.token
 
-    const {List, setList, update} = useContext(GlobalContext)
+    const {List, setList, update, setTodayList} = useContext(GlobalContext)
     const [adding, setAdding] = useState(false)
 
+    //Carregar lista de todos os hábitos
     useEffect(() => {
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
         const config = {
@@ -23,11 +24,25 @@ export default function Habits(){
         }
 
         const promise = axios.get(URL, config)
-        promise.then(res => {setList(res.data)
-        console.log(res.data)})
+        promise.then(res => {setList(res.data)})
         promise.catch(err => console.log(err))
 
     }, [update])
+
+    // Carregar hábitos de hoje
+    useEffect(() => {
+        const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today'
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+
+        const promise = axios.get(URL, config)
+        promise.then(res => {setTodayList(res.data)})
+        promise.catch(err => console.log(err))
+    
+      }, [update])
 
     function newHabit(){
         if(!adding){
@@ -58,12 +73,11 @@ const HabitsContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 800px;
     margin-top: 70px;
     padding: 20px;
     height: 100vh;
 
-    background-color: #dbdbdb;
+    background-color: transparent;
 
 `
 

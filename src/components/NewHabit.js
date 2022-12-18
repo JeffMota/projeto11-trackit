@@ -2,21 +2,11 @@ import { useContext, useState } from "react"
 import styled from "styled-components"
 import GlobalContext from "../contexts/GlobalContext"
 import axios from "axios"
-import { ThreeDots } from  'react-loader-spinner'
+import { ThreeDots } from 'react-loader-spinner'
 
-export default function NewHabit({setAdding}) {
-    const daysList = [
-        { id: 1, name: 'D' },
-        { id: 2, name: 'S' },
-        { id: 3, name: 'T' },
-        { id: 4, name: 'Q' },
-        { id: 5, name: 'Q' },
-        { id: 6, name: 'S' },
-        { id: 7, name: 'S' }
-    ]
+export default function NewHabit({ setAdding }) {
 
-    
-    const {formInfos, setFormInfos, user, setList, List} = useContext(GlobalContext)
+    const { formInfos, setFormInfos, user, setList, List, setUpdate, update, daysList } = useContext(GlobalContext)
     const [selectedDays, setSelectedDays] = useState(formInfos.days)
     const [name, setName] = useState(formInfos.name)
     const [loading, setLoading] = useState(false)
@@ -40,7 +30,7 @@ export default function NewHabit({setAdding}) {
         }
     }
 
-    function changeName(value){
+    function changeName(value) {
         setName(value)
         let aux = [...selectedDays]
         setSelectedDays(aux)
@@ -50,14 +40,19 @@ export default function NewHabit({setAdding}) {
         })
     }
 
-    function getList(habit){
+    function getList(habit) {
         let aux = [...List, habit]
+        if (update) {
+            setUpdate(false)
+        } else setUpdate(true)
+        
         setList(aux)
         setLoading(false)
-        
+        setName('')
+        setSelectedDays([])
     }
 
-    function sendHabit(e){
+    function sendHabit(e) {
         e.preventDefault()
         setLoading(true)
 
@@ -70,16 +65,25 @@ export default function NewHabit({setAdding}) {
 
         const promise = axios.post(URL, formInfos, config)
         promise.then(res => getList(res.data))
-        promise.catch(err => console.log(err))
+        promise.catch(err => {
+            setName('')
+            setSelectedDays([])
+            alert(err)
+        })
 
-        console.log(formInfos)
     }
 
 
     return (
         <NewContainer onSubmit={(e) => sendHabit(e)}>
             <HabitName>
-                <input value={name} onChange={(e) => changeName(e.target.value)} placeholder="nome do hábito" />
+                <input
+                    disabled={(loading) && true}
+                    required
+                    value={name}
+                    onChange={(e) => changeName(e.target.value)}
+                    placeholder="nome do hábito"
+                />
                 <div>
                     {daysList.map(day =>
                         <DaysBtn
@@ -92,19 +96,23 @@ export default function NewHabit({setAdding}) {
                 </div>
             </HabitName>
             <ButtonsCont>
-                <Cancel onClick={() => setAdding(false)} type="button">Cancelar</Cancel>
-                <Save type="submit">
-                    {(loading) ? 
-                    <ThreeDots 
-                        height="15" 
-                        width="80" 
-                        radius="9"
-                        color="#ffff" 
-                        ariaLabel="three-dots-loading"
-                        wrapperStyle={{}}
-                        wrapperClassName=""
-                        visible={true}
-                    /> : "Salvar"}
+                <Cancel
+                    disabled={(loading) && true}
+                    onClick={() => setAdding(false)}
+                    type="button">Cancelar
+                </Cancel>
+                <Save disabled={(loading) && true} type="submit">
+                    {(loading) ?
+                        <ThreeDots
+                            height="15"
+                            width="80"
+                            radius="9"
+                            color="#ffff"
+                            ariaLabel="three-dots-loading"
+                            wrapperStyle={{}}
+                            wrapperClassName=""
+                            visible={true}
+                        /> : "Salvar"}
                 </Save>
             </ButtonsCont>
         </NewContainer>

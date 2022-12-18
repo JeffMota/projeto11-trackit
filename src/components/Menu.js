@@ -1,9 +1,26 @@
+import { useContext, useEffect, useState } from 'react';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import styled from "styled-components"
+import GlobalContext from '../contexts/GlobalContext';
 
 export default function Menu() {
-    const percentage = 30
+
+    const {todayList, update} = useContext(GlobalContext)
+    const [percentage, setPercentage] = useState(0)
+
+    useEffect(() => {
+        let aux = 0
+        todayList.forEach(elm => {
+            if(elm.done){
+                aux++
+            }
+        });
+
+        setPercentage(aux/todayList.lenght) 
+
+    }, [update])
+ 
 
     return (
         <MenuContainer>
