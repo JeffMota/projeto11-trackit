@@ -1,15 +1,16 @@
 import axios from "axios"
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import logo from "../../assets/img/logo.png"
 import ButtonSubmit from "../../components/ButtonSubmit"
 import Loading from "../../components/Loading"
+import GlobalContext from "../../contexts/GlobalContext"
 import { LogoContainer, LoginContainer, FormLogin } from "./LoginStyle"
 
 
 export default function Login(){
-
+    const {setUser} = useContext(GlobalContext)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -37,8 +38,10 @@ export default function Login(){
         const promise = axios.post(URL, body)
         promise.then(res => {
             localStorage.setItem("user", JSON.stringify(res.data))
+
+            setUser(res.data)
             navigate("/habitos")
-            console.log(res)
+            console.log(res.data)
         })
         promise.catch(err => {
             console.log(err)

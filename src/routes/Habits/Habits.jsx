@@ -1,15 +1,18 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import Header from "../../components/Header";
 import HabitCard from "../../components/HabitCard";
 import Menu from "../../components/Menu";
+import NewHabit from "../../components/NewHabit";
+import GlobalContext from "../../contexts/GlobalContext";
 
 export default function Habits(){
     const user = JSON.parse(localStorage.getItem('user'))
     const token = user.token
 
-    const [List, setList] = useState([])
+    const {List, setList} = useContext(GlobalContext)
+    const [adding, setAdding] = useState(false)
 
     useEffect(() => {
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
@@ -25,16 +28,24 @@ export default function Habits(){
 
     }, [])
 
+    function newHabit(){
+        if(!adding){
+            setAdding(true)
+        }
+        else setAdding(false)
+    }
+
     return(
         <HabitsContainer>
             <Header />
             <Title>
                 <h2>Meus hábitos</h2>
-                <button>+</button>
+                <button onClick={newHabit}>{(adding) ? '-' : '+'}</button>
             </Title>
             <HabitsList>
+                {(adding) && <NewHabit user={user} setAdding={setAdding}/>}
                 {(List.length === 0) ? <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>:
-                List.map(habit => <HabitCard name={habit.name} days={habit.days}/>)
+                List.map(habit => <HabitCard key={habit.name} name={habit.name} days={habit.days}/>)
             }
             </HabitsList>
             <Menu />

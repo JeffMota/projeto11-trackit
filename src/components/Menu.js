@@ -13,7 +13,7 @@ export default function Menu() {
                     value={percentage} 
                     text={`Hoje`}
                     background={true}
-                    backgroundPadding={5}
+                    backgroundPadding={7}
                     styles={buildStyles({
                         textColor: `#ffffff`,
                         textSize: `22.47px`,
@@ -51,14 +51,12 @@ const Hoje = styled.div`
     align-items: center;
     justify-content: center;
 
-    background-color: #52B6FF;
-
     width: 91px;
     height: 91px;
 
     border-radius: 50%;
 
-    position: fixed;
+    position: absolute;
 
     left: calc(50vw - 45.5px);
     bottom: 10px;
