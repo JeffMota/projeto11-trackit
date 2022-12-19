@@ -7,22 +7,9 @@ import GlobalContext from '../contexts/GlobalContext';
 
 export default function Menu() {
 
-    const {todayList, update} = useContext(GlobalContext)
-    const [percentage, setPercentage] = useState(0)
-
+    const {todayList, update, setFinished, percentage} = useContext(GlobalContext)
+    
     const navigate = useNavigate()
-
-    useEffect(() => {
-        let aux = 0
-        todayList.forEach(elm => {
-            if(elm.done){
-                aux++
-            }
-        });
-
-        setPercentage(aux/todayList.lenght) 
-
-    }, [update])
  
     function redirect(caminho){
         navigate(caminho)

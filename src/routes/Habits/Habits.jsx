@@ -12,7 +12,7 @@ export default function Habits() {
     const user = JSON.parse(localStorage.getItem('user'))
     const token = user.token
 
-    const { List, setList, update, setTodayList } = useContext(GlobalContext)
+    const { List, setList, update, setTodayList, todayList } = useContext(GlobalContext)
     const [adding, setAdding] = useState(false)
     const [loading, setLoading] = useState(true)
 
@@ -43,13 +43,12 @@ export default function Habits() {
 
         const promise = axios.get(URL, config)
         promise.then(res => {
-            console.log('Hoje')
             setTodayList(res.data)
             setLoading(false)
         })
         promise.catch(err => console.log(err))
 
-    }, [update])
+    }, [])
 
     function newHabit() {
         if (!adding) {
