@@ -3,7 +3,7 @@ import Menu from "../../components/Menu";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import 'dayjs/locale/pt-br';
-import { useContext, useEffect } from "react";
+import { useEffect, useContext } from "react";
 import GlobalContext from "../../contexts/GlobalContext";
 import axios from "axios";
 
@@ -20,8 +20,8 @@ export default function Today() {
     const { todayList, setTodayList, user, update } = useContext(GlobalContext)
 
     useEffect(() => {
-
         console.log('aqui')
+
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today'
         const config = {
             headers: {

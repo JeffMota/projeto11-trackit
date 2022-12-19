@@ -7,11 +7,11 @@ import { ThreeDots } from 'react-loader-spinner'
 
 export default function HabitCard({ name, days, id }) {
 
-    const { user, List, setList, setUpdate, update, daysList } = useContext(GlobalContext)
+    const { user, setUpdate, update, daysList } = useContext(GlobalContext)
     const [loading, setLoading] = useState(false)
 
     function deleteHabit() {
-        if(window.confirm('Desejadeletar esse hábito?')) {
+        if(window.confirm('Deseja deletar esse hábito?')) {
             setLoading(true)
 
             const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`
@@ -23,7 +23,6 @@ export default function HabitCard({ name, days, id }) {
 
             const promise = axios.delete(URL, config)
             promise.then(res => {
-                console.log(res)
                 if (update) {
                     setUpdate(false)
                 } else setUpdate(true)

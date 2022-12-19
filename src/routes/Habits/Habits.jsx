@@ -26,7 +26,8 @@ export default function Habits() {
         }
 
         const promise = axios.get(URL, config)
-        promise.then(res => setList(res.data))
+        promise.then(res => {
+            setList(res.data)})
         promise.catch(err => console.log(err))
 
     }, [update])
@@ -42,8 +43,8 @@ export default function Habits() {
 
         const promise = axios.get(URL, config)
         promise.then(res => {
+            console.log('Hoje')
             setTodayList(res.data)
-            console.log('Hoje:', res.data)
             setLoading(false)
         })
         promise.catch(err => console.log(err))
