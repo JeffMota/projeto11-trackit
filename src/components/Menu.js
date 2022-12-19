@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { useNavigate } from 'react-router-dom';
 import styled from "styled-components"
 import GlobalContext from '../contexts/GlobalContext';
 
@@ -8,6 +9,8 @@ export default function Menu() {
 
     const {todayList, update} = useContext(GlobalContext)
     const [percentage, setPercentage] = useState(0)
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         let aux = 0
@@ -21,11 +24,16 @@ export default function Menu() {
 
     }, [update])
  
+    function redirect(caminho){
+        navigate(caminho)
+    }
 
     return (
         <MenuContainer>
-            <Habitos>Hábitos</Habitos>
-            <Hoje>
+            <Habitos onClick={() => redirect('/habitos')}>
+                Hábitos
+            </Habitos>
+            <Hoje onClick={() => redirect('/hoje')}>
                 <CircularProgressbar
                     value={percentage} 
                     text={`Hoje`}
@@ -40,7 +48,9 @@ export default function Menu() {
                     })}
                 />
             </Hoje>
-            <Historico>Histórico</Historico>
+            <Historico>
+                Histórico
+            </Historico>
         </MenuContainer>
     )
 }

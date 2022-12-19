@@ -6,13 +6,15 @@ import HabitCard from "../../components/HabitCard";
 import Menu from "../../components/Menu";
 import NewHabit from "../../components/NewHabit";
 import GlobalContext from "../../contexts/GlobalContext";
+import { ThreeDots } from 'react-loader-spinner'
 
-export default function Habits(){
+export default function Habits() {
     const user = JSON.parse(localStorage.getItem('user'))
     const token = user.token
 
-    const {List, setList, update, setTodayList} = useContext(GlobalContext)
+    const { List, setList, update, setTodayList } = useContext(GlobalContext)
     const [adding, setAdding] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     //Carregar lista de todos os hábitos
     useEffect(() => {
@@ -24,7 +26,7 @@ export default function Habits(){
         }
 
         const promise = axios.get(URL, config)
-        promise.then(res => {setList(res.data)})
+        promise.then(res => setList(res.data))
         promise.catch(err => console.log(err))
 
     }, [update])
@@ -39,31 +41,49 @@ export default function Habits(){
         }
 
         const promise = axios.get(URL, config)
-        promise.then(res => {setTodayList(res.data)})
+        promise.then(res => {
+            setTodayList(res.data)
+            console.log('Hoje:', res.data)
+            setLoading(false)
+        })
         promise.catch(err => console.log(err))
-    
-      }, [update])
 
-    function newHabit(){
-        if(!adding){
+    }, [update])
+
+    function newHabit() {
+        if (!adding) {
             setAdding(true)
         }
         else setAdding(false)
     }
 
-    return(
+    return (
         <HabitsContainer>
             <Header />
             <Title>
                 <h2>Meus hábitos</h2>
                 <button onClick={newHabit}>{(adding) ? '-' : '+'}</button>
             </Title>
-            <HabitsList>
-                {(adding) && <NewHabit user={user} setAdding={setAdding}/>}
-                {(List.length === 0) ? <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>:
-                List.map(habit => <HabitCard key={habit.name} name={habit.name} days={habit.days} id={habit.id}/>)
+            {(loading) ?
+                <LoadingBox>
+                    <ThreeDots
+                        height="50"
+                        width="100"
+                        radius="9"
+                        color="#000000"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClassName=""
+                        visible={true}
+                    />
+                </LoadingBox> :
+                <HabitsList>
+                    {(adding) && <NewHabit user={user} setAdding={setAdding} />}
+                    {(List.length === 0) ? <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p> :
+                        List.map(habit => <HabitCard key={habit.name} name={habit.name} days={habit.days} id={habit.id} />)
+                    }
+                </HabitsList>
             }
-            </HabitsList>
             <Menu />
         </HabitsContainer>
     )
@@ -118,4 +138,12 @@ const HabitsList = styled.div`
         font-size: 22.47px;
         color: #666666;
     }
+`
+
+const LoadingBox = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 80%;
 `

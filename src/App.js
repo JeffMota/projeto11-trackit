@@ -2,8 +2,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./routes/Login/Login";
 import SignIn from "./routes/SignIn/SignIn";
 import Habits from "./routes/Habits/Habits";
+import Today from "./routes/Today/Today";
 import GlobalContext from "./contexts/GlobalContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
     { id: 6, name: 'S' }
 ]
 
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState((localStorage.getItem('user')) ? JSON.parse((localStorage.getItem('user'))) : null)
   const [formInfos, setFormInfos] = useState({ name: '', days: [] })
   const [List, setList] = useState([])
   const [todayList, setTodayList] = useState([])
@@ -29,11 +30,12 @@ function App() {
       <GlobalContext.Provider
         value={
           { user, setUser, formInfos, setFormInfos, List, setList, 
-          update, setUpdate, todayList, setTodayList, daysList,  }}>
+          update, setUpdate, todayList, setTodayList, daysList  }}>
         <Routes>
           <Route path={"/"} element={<Login />} />
           <Route path={"/cadastro"} element={<SignIn />} />
           <Route path={"/habitos"} element={<Habits />} />
+          <Route path={"/hoje"} element={<Today />} />
         </Routes>
       </GlobalContext.Provider>
     </BrowserRouter>
