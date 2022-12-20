@@ -2,7 +2,7 @@ import Header from "../../components/Header";
 import Menu from "../../components/Menu";
 import styled from "styled-components";
 import dayjs from "dayjs";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import GlobalContext from "../../contexts/GlobalContext";
 import Check from "../../assets/img/Vector.png"
 import axios from "axios";
@@ -24,6 +24,7 @@ export default function Today() {
 
     const dia = dayjs().day()
     const data = dayjs().format(' DD/MM')
+    const [novo, setNovo] = useState([])
 
     // Carregar hábitos de hoje
     useEffect(() => {
@@ -38,11 +39,12 @@ export default function Today() {
         promise.then(res => {
           setTodayList(res.data)
   
-          const novo = res.data
+          let aux1 = res.data
+          setNovo(res.data)
   
           let aux = 0
           let cont = 0
-          novo.forEach(elm => {
+          aux1.forEach(elm => {
             if (elm.done) {
               aux = aux + 1
             }
@@ -113,7 +115,7 @@ export default function Today() {
             <Header />
             <Title>
                 <h2 data-test="today" >{days[dia] + ',' + data}</h2>
-                {((finished === 0 || (todayList === []))) ? <Msg data-test="today-counter" color="#bababa">Nenhum hábito concluído ainda</Msg> : <Msg data-test="today-counter" color="#8FC549">{percentage.toFixed(0)}% dos habitos concluídos</Msg>}
+                {((finished === 0) || (novo.length == 0)) ? <Msg data-test="today-counter" color="#bababa">Nenhum hábito concluído ainda</Msg> : <Msg data-test="today-counter" color="#8FC549">{percentage.toFixed(0)}% dos habitos concluídos</Msg>}
             </Title>
             <TodayHabitList>
                 {todayList.map(habit =>

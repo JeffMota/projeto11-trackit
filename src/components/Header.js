@@ -1,14 +1,16 @@
+import { useContext, useEffect } from "react"
 import styled from "styled-components"
 import logo from "../assets/img/TrackIt.png"
+import GlobalContext from "../contexts/GlobalContext"
 
 export default function Header() {
 
-    const user = JSON.parse(localStorage.getItem("user"))
+    const {user} = useContext(GlobalContext)
 
     return (
         <HeaderContainer data-test="header">
             <ImgLogo src={logo}></ImgLogo>
-            <ImgPerfil src={user.image} ></ImgPerfil>
+            <ImgPerfil src={user.image} />
         </HeaderContainer>
     )
 }
@@ -45,8 +47,5 @@ const ImgPerfil = styled.img`
 
     object-fit: cover;
 
-    /* background-image: url(${props => props.img});
-    background-position: center;
-    background-size: cover; */
     border-radius: 50%;
 `

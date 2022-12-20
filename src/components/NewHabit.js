@@ -58,11 +58,11 @@ export default function NewHabit({ setAdding }) {
 
     function sendHabit(e) {
         e.preventDefault()
-        if(name === ''){
+        if (name === '') {
             alert("Você deve preencher o campo de nome")
             return
         }
-        
+
         setLoading(true)
 
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
@@ -75,7 +75,8 @@ export default function NewHabit({ setAdding }) {
         const promise = axios.post(URL, formInfos, config)
         promise.then(res => {
             setAdding(false)
-            getList(res.data)})
+            getList(res.data)
+        })
         promise.catch(err => {
             setName('')
             setSelectedDays([])
@@ -86,50 +87,52 @@ export default function NewHabit({ setAdding }) {
 
 
     return (
-        <NewContainer data-test="habit-create-container" onSubmit={(e) => sendHabit(e)}>
-            <HabitName>
-                <input
-                    data-test="habit-name-input"
-                    disabled={loading}
-                    value={name}
-                    onChange={(e) => changeName(e.target.value)}
-                    placeholder="nome do hábito"
-                />
-                <div>
-                    {daysList.map(day =>
-                        <DaysBtn
-                            data-test="habit-day"
-                            disabled={loading}
-                            key={day.id}
-                            selected={(selectedDays.includes(day.id)) ? true : false}
-                            onClick={() => selectDay(day.id)}
-                            type="button"
-                        >{day.name}
-                        </DaysBtn>)}
-                </div>
-            </HabitName>
-            <ButtonsCont>
-                <Cancel
-                    data-test="habit-create-cancel-btn"
-                    disabled={loading}
-                    onClick={() => setAdding(false)}
-                    type="button">Cancelar
-                </Cancel>
-                <Save data-test="habit-create-save-btn" opacity={(loading) ? '0.8' : '1'} disabled={loading} type="submit">
-                    {(loading) ?
-                        <ThreeDots
-                            height="15"
-                            width="80"
-                            radius="9"
-                            color="#ffff"
-                            ariaLabel="three-dots-loading"
-                            wrapperStyle={{}}
-                            wrapperClassName=""
-                            visible={true}
-                        /> : "Salvar"}
-                </Save>
-            </ButtonsCont>
-        </NewContainer>
+        <div data-test="habit-create-container">
+            <NewContainer onSubmit={(e) => sendHabit(e)}>
+                <HabitName>
+                    <input
+                        data-test="habit-name-input"
+                        disabled={loading}
+                        value={name}
+                        onChange={(e) => changeName(e.target.value)}
+                        placeholder="nome do hábito"
+                    />
+                    <div>
+                        {daysList.map(day =>
+                            <DaysBtn
+                                data-test="habit-day"
+                                disabled={loading}
+                                key={day.id}
+                                selected={(selectedDays.includes(day.id)) ? true : false}
+                                onClick={() => selectDay(day.id)}
+                                type="button"
+                            >{day.name}
+                            </DaysBtn>)}
+                    </div>
+                </HabitName>
+                <ButtonsCont>
+                    <Cancel
+                        data-test="habit-create-cancel-btn"
+                        disabled={loading}
+                        onClick={() => setAdding(false)}
+                        type="button">Cancelar
+                    </Cancel>
+                    <Save data-test="habit-create-save-btn" opacity={(loading) ? '0.8' : '1'} disabled={loading} type="submit">
+                        {(loading) ?
+                            <ThreeDots
+                                height="15"
+                                width="80"
+                                radius="9"
+                                color="#ffff"
+                                ariaLabel="three-dots-loading"
+                                wrapperStyle={{}}
+                                wrapperClassName=""
+                                visible={true}
+                            /> : "Salvar"}
+                    </Save>
+                </ButtonsCont>
+            </NewContainer>
+        </div>
     )
 }
 
