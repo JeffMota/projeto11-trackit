@@ -2,7 +2,6 @@ import axios from "axios"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import logo from "../../assets/img/logo.png"
-import ButtonSubmit from "../../components/ButtonSubmit"
 import Loading from "../../components/Loading"
 import { LogoContainer, LoginContainer, FormSignIn } from "./SignInStyle"
 
@@ -48,13 +47,13 @@ export default function Login(){
                 <img src={logo} alt="logo"/>
             </LogoContainer>
             <FormSignIn onSubmit={e => sendSignInRequest(e)}>
-                <input onChange={e => setEmail(e.target.value)} required placeholder="email" type="email"/>
-                <input onChange={e => setPassword(e.target.value)} required placeholder="senha" type="password"/>
-                <input onChange={e => setName(e.target.value)} required placeholder="nome" type="text"/>
-                <input onChange={e => setImage(e.target.value)} required placeholder="foto" type="url"/>
-                <ButtonSubmit text={loading ? <Loading /> : "Cadastrar"}/>
+                <input data-test="email-input" onChange={e => setEmail(e.target.value)} required placeholder="email" type="email"/>
+                <input data-test="password-input" onChange={e => setPassword(e.target.value)} required placeholder="senha" type="password"/>
+                <input data-test="user-name-input" onChange={e => setName(e.target.value)} required placeholder="nome" type="text"/>
+                <input data-test="user-image-input" onChange={e => setImage(e.target.value)} required placeholder="foto" type="url"/>
+                <button data-test="signup-btn" type="submit" >{loading ? <Loading /> : "Cadastrar"}</button>
             </FormSignIn>
-            <Link to={"/"}>Já tem uma conta? Faça login!</Link>
+            <Link data-test="login-link" to={"/"}>Já tem uma conta? Faça login!</Link>
         </LoginContainer>
     )   
 }

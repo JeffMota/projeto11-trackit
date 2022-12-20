@@ -45,7 +45,7 @@ export default function NewHabit({ setAdding }) {
         if (update) {
             setUpdate(false)
         } else setUpdate(true)
-        
+
         setList(aux)
         setLoading(false)
         setFormInfos({
@@ -79,9 +79,10 @@ export default function NewHabit({ setAdding }) {
 
 
     return (
-        <NewContainer onSubmit={(e) => sendHabit(e)}>
+        <NewContainer data-test="habit-create-container" onSubmit={(e) => sendHabit(e)}>
             <HabitName>
                 <input
+                    data-test="habit-name-input"
                     disabled={(loading) && true}
                     required
                     value={name}
@@ -91,6 +92,7 @@ export default function NewHabit({ setAdding }) {
                 <div>
                     {daysList.map(day =>
                         <DaysBtn
+                            data-test="habit-day"
                             key={day.id}
                             selected={(selectedDays.includes(day.id)) ? true : false}
                             onClick={() => selectDay(day.id)}
@@ -101,11 +103,12 @@ export default function NewHabit({ setAdding }) {
             </HabitName>
             <ButtonsCont>
                 <Cancel
+                    data-test="habit-create-cancel-btn"
                     disabled={(loading) && true}
                     onClick={() => setAdding(false)}
                     type="button">Cancelar
                 </Cancel>
-                <Save opacity={(loading) ? '0.8': '1'} disabled={(loading) && true} type="submit">
+                <Save data-test="habit-creat-save-btn" opacity={(loading) ? '0.8' : '1'} disabled={(loading) && true} type="submit">
                     {(loading) ?
                         <ThreeDots
                             height="15"

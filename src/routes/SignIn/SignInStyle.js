@@ -13,6 +13,7 @@ export const LoginContainer = styled.div`
 
     >a{
         color: #52B6FF;
+        margin-bottom: 50px;
     }
 `
 
@@ -31,7 +32,7 @@ export const FormSignIn = styled.form`
     flex-direction: column;
     width: 80%;
 
-    justify-content: space-around;
+    justify-content: space-between;
     margin-top: 50px;
     margin-bottom: 30px;
 
@@ -41,6 +42,7 @@ export const FormSignIn = styled.form`
         height: 45px;
         border-radius: 5px;
         padding: 10px;
+        margin: 5px 0;
 
         font-size: 20px;
         color: #DBDBDB;

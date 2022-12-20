@@ -16,11 +16,11 @@ export default function Menu() {
     }
 
     return (
-        <MenuContainer>
-            <Habitos onClick={() => redirect('/habitos')}>
+        <MenuContainer data-test="menu">
+            <Habitos data-test="habit-link" onClick={() => redirect('/habitos')}>
                 Hábitos
             </Habitos>
-            <Hoje onClick={() => redirect('/hoje')}>
+            <Hoje data-test="today-link" onClick={() => redirect('/hoje')}>
                 <CircularProgressbar
                     value={percentage} 
                     text={`Hoje`}
@@ -35,7 +35,7 @@ export default function Menu() {
                     })}
                 />
             </Hoje>
-            <Historico onClick={() => redirect('/historico')}>
+            <Historico data-test="history-link" onClick={() => redirect('/historico')}>
                 Histórico
             </Historico>
         </MenuContainer>

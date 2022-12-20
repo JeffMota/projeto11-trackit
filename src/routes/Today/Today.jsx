@@ -2,7 +2,7 @@ import Header from "../../components/Header";
 import Menu from "../../components/Menu";
 import styled from "styled-components";
 import dayjs from "dayjs";
-import { useEffect, useContext, useState } from "react";
+import { useContext } from "react";
 import GlobalContext from "../../contexts/GlobalContext";
 import Check from "../../assets/img/Vector.png"
 import axios from "axios";
@@ -21,42 +21,8 @@ export default function Today() {
     const { todayList, loading, user, update, setLoading, finished, setUpdate, percentage } = useContext(GlobalContext)
     
 
-
     const dia = dayjs().day()
     const data = dayjs().format(' DD/MM')
-
-    //Recarregando a lista de hábitos do dia
-    // useEffect(() => {
-    //     const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today'
-    //     const config = {
-    //         headers: {
-    //             'Authorization': `Bearer ${user.token}`
-    //         }
-    //     }
-
-    //     const promise = axios.get(URL, config)
-    //     promise.then(res => {
-    //         setTodayList(res.data)
-
-    //         const novo = res.data
-
-    //         let aux = 0
-    //         let cont = 0
-    //         novo.forEach(elm => {
-    //             if (elm.done) {
-    //                 aux = aux + 1
-    //             }
-    //             cont = cont + 1
-    //         });
-    //         setFinished((aux / cont) * 100)
-    //         setPercentage((aux / cont) * 100)
-
-    //         setLoading(false)
-
-    //     })
-    //     promise.catch(err => console.log(err))
-
-    // }, [update])
 
 
     //Marcar hábito como concluído
@@ -113,21 +79,21 @@ export default function Today() {
         <TodayContainer>
             <Header />
             <Title>
-                <h2>{days[dia] + ',' + data}</h2>
-                {(finished === 0) ? <Msg color="#bababa">Nenhum hábito concluído ainda</Msg> : <Msg color="#8FC549">{percentage.toFixed(0)}% dos habitos concluídos</Msg>}
+                <h2 data-test="today" >{days[dia] + ',' + data}</h2>
+                {(finished === 0) ? <Msg data-test="today-counter" color="#bababa">Nenhum hábito concluído ainda</Msg> : <Msg data-test="today-counter" color="#8FC549">{percentage.toFixed(0)}% dos habitos concluídos</Msg>}
             </Title>
             <TodayHabitList>
                 {todayList.map(habit =>
-                    <TodayHabitCard sequence={habit.currentSequence} HighSequence={habit.highestSequence} key={habit.id} color={(habit.done) ? "#8FC549" : "#E7E7E7"}>
+                    <TodayHabitCard data-test="today-habit-container " sequence={habit.currentSequence} HighSequence={habit.highestSequence} key={habit.id} color={(habit.done) ? "#8FC549" : "#E7E7E7"}>
                         <div>
-                            <h3>{habit.name}</h3>
-                            <p>Sequencia atual: <span>{habit.currentSequence} {(habit.currentSequence > 1) ? 'dias' : 'dia'}</span></p>
-                            <p>Seu record: <span>{habit.highestSequence} {(habit.highestSequence > 1) ? 'dias' : 'dia'}</span></p>
+                            <h3 data-test="today-habit-name" >{habit.name}</h3>
+                            <p data-test="today-habit-sequence" >Sequencia atual: <span>{habit.currentSequence} {(habit.currentSequence > 1) ? 'dias' : 'dia'}</span></p>
+                            <p data-test="today-habit-record " >Seu record: <span>{habit.highestSequence} {(habit.highestSequence > 1) ? 'dias' : 'dia'}</span></p>
                         </div>
-                        <button disabled={(loading) && true} onClick={(habit.done) ? () => uncheckHabit(habit.id) : () => checkHabit(habit.id)}>
+                        <button data-test="today-habit-check-btn" disabled={(loading) && true} onClick={(habit.done) ? () => uncheckHabit(habit.id) : () => checkHabit(habit.id)}>
                             {(loading) ? 
                                 <ThreeDots
-                                    height="20"
+                                    height="20" 
                                     width="50"
                                     radius="9"
                                     color="#ffffff"

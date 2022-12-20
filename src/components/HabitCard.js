@@ -33,9 +33,9 @@ export default function HabitCard({ name, days, id }) {
     }
 
     return (
-        <HabitContainer>
-            <h2>{name}</h2>
-            <BtnDelete disabled={(loading) && true} onClick={deleteHabit}>
+        <HabitContainer data-test="habit-container">
+            <h2 data-test="habit-name">{name}</h2>
+            <BtnDelete data-test="habit-delete-btn" disabled={(loading) && true} onClick={deleteHabit}>
                 {(loading) ?
                     <ThreeDots
                         height="15"
@@ -50,7 +50,7 @@ export default function HabitCard({ name, days, id }) {
                 }
             </BtnDelete>
             <DayContainer>
-                {daysList.map(day => <Day key={day.id} selected={(days.includes(day.id)) ? true : false}>{day.name}</Day>)}
+                {daysList.map(day => <Day data-test="habit-day" key={day.id} selected={(days.includes(day.id)) ? true : false}>{day.name}</Day>)}
             </DayContainer>
         </HabitContainer>
     )

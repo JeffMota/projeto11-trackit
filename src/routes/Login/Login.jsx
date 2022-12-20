@@ -3,7 +3,6 @@ import { useContext, useEffect } from "react"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import logo from "../../assets/img/logo.png"
-import ButtonSubmit from "../../components/ButtonSubmit"
 import Loading from "../../components/Loading"
 import GlobalContext from "../../contexts/GlobalContext"
 import { LogoContainer, LoginContainer, FormLogin } from "./LoginStyle"
@@ -56,11 +55,11 @@ export default function Login(){
                 <img src={logo} alt="logo"/>
             </LogoContainer>
             <FormLogin onSubmit={e => sendLoginRequest(e)}>
-                <input disabled={loading} onChange={e => setEmail(e.target.value)} required placeholder="email" type="email"/>
-                <input disabled={loading} onChange={e => setPassword(e.target.value)} required placeholder="senha" type="password"/>
-                <ButtonSubmit disabled={loading} text={loading ? <Loading /> : "Entrar"}/>
+                <input data-test="email-input" disabled={loading} onChange={e => setEmail(e.target.value)} required placeholder="email" type="email"/>
+                <input data-test="password-input" disabled={loading} onChange={e => setPassword(e.target.value)} required placeholder="senha" type="password"/>
+                <button type="submit" >{loading ? <Loading /> : "Entrar"}</button>
             </FormLogin>
-            <Link to={"/cadastro"}>Não tem uma conta? Cadastre-se!</Link>
+            <Link data-test="signup-link" to={"/cadastro"}>Não tem uma conta? Cadastre-se!</Link>
         </LoginContainer>
     )   
 }

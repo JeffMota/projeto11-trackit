@@ -76,7 +76,7 @@ export default function Habits() {
             <Header />
             <Title>
                 <h2>Meus hábitos</h2>
-                <button onClick={newHabit}>{(adding) ? '-' : '+'}</button>
+                <button data-test="habit-create-btn" onClick={newHabit}>{(adding) ? '-' : '+'}</button>
             </Title>
             {(loading) ?
                 <LoadingBox>
