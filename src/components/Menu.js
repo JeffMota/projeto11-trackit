@@ -35,7 +35,7 @@ export default function Menu() {
                     })}
                 />
             </Hoje>
-            <Historico>
+            <Historico onClick={() => redirect('/historico')}>
                 Histórico
             </Historico>
         </MenuContainer>

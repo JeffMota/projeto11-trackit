@@ -6,6 +6,7 @@ import Today from "./routes/Today/Today";
 import GlobalContext from "./contexts/GlobalContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Historic from "./routes/Historic/Historic";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
   const [update, setUpdate] = useState(false)
   const [finished, setFinished] = useState(0)
   const [percentage, setPercentage] = useState(0)
+  const [loading, setLoading] = useState(false)
 
 
   // Carregar hábitos de hoje
@@ -41,6 +43,22 @@ function App() {
       const promise = axios.get(URL, config)
       promise.then(res => {
         setTodayList(res.data)
+
+        const novo = res.data
+
+        let aux = 0
+        let cont = 0
+        novo.forEach(elm => {
+          if (elm.done) {
+            aux = aux + 1
+          }
+          cont = cont + 1
+        });
+        setFinished((aux / cont) * 100)
+        setPercentage((aux / cont) * 100)
+
+        setLoading(false)
+
       })
       promise.catch(err => console.log(err))
     }
@@ -55,13 +73,14 @@ function App() {
           {
             user, setUser, formInfos, setFormInfos, List, setList,
             update, setUpdate, todayList, setTodayList, daysList, finished, setFinished,
-            setPercentage, percentage
+            setPercentage, percentage, loading, setLoading
           }}>
         <Routes>
           <Route path={"/"} element={<Login />} />
           <Route path={"/cadastro"} element={<SignIn />} />
           <Route path={"/habitos"} element={<Habits />} />
           <Route path={"/hoje"} element={<Today />} />
+          <Route path={"/historico"} element={<Historic />} />
         </Routes>
       </GlobalContext.Provider>
     </BrowserRouter>

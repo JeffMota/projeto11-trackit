@@ -48,6 +48,10 @@ export default function NewHabit({ setAdding }) {
         
         setList(aux)
         setLoading(false)
+        setFormInfos({
+            name: '',
+            days: []
+        })
         setName('')
         setSelectedDays([])
     }

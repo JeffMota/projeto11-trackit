@@ -18,45 +18,45 @@ export default function Today() {
         'Quinta',
         'Sexta'
     ]
-    const { todayList, setTodayList, user, update, finished, setUpdate, setFinished, setPercentage, percentage } = useContext(GlobalContext)
-    const [loading, setLoading] = useState(false)
+    const { todayList, loading, user, update, setLoading, finished, setUpdate, percentage } = useContext(GlobalContext)
+    
 
 
     const dia = dayjs().day()
     const data = dayjs().format(' DD/MM')
 
     //Recarregando a lista de hábitos do dia
-    useEffect(() => {
-        const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today'
-        const config = {
-            headers: {
-                'Authorization': `Bearer ${user.token}`
-            }
-        }
+    // useEffect(() => {
+    //     const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today'
+    //     const config = {
+    //         headers: {
+    //             'Authorization': `Bearer ${user.token}`
+    //         }
+    //     }
 
-        const promise = axios.get(URL, config)
-        promise.then(res => {
-            setTodayList(res.data)
+    //     const promise = axios.get(URL, config)
+    //     promise.then(res => {
+    //         setTodayList(res.data)
 
-            const novo = res.data
+    //         const novo = res.data
 
-            let aux = 0
-            let cont = 0
-            novo.forEach(elm => {
-                if (elm.done) {
-                    aux = aux + 1
-                }
-                cont = cont + 1
-            });
-            setFinished((aux / cont) * 100)
-            setPercentage((aux / cont) * 100)
+    //         let aux = 0
+    //         let cont = 0
+    //         novo.forEach(elm => {
+    //             if (elm.done) {
+    //                 aux = aux + 1
+    //             }
+    //             cont = cont + 1
+    //         });
+    //         setFinished((aux / cont) * 100)
+    //         setPercentage((aux / cont) * 100)
 
-            setLoading(false)
+    //         setLoading(false)
 
-        })
-        promise.catch(err => console.log(err))
+    //     })
+    //     promise.catch(err => console.log(err))
 
-    }, [update])
+    // }, [update])
 
 
     //Marcar hábito como concluído
@@ -76,6 +76,7 @@ export default function Today() {
             if (update) {
                 setUpdate(false)
             } else { setUpdate(true) }
+
         })
         promise.catch(err => {
             setLoading(false)
@@ -112,16 +113,16 @@ export default function Today() {
         <TodayContainer>
             <Header />
             <Title>
-                <h2>{days[dia] + data}</h2>
-                {(finished === 0) ? <Msg color="#bababa">Nenhum hábito concluído ainda</Msg> : <Msg color="#8FC549">{percentage}% dos habitos concluídos</Msg>}
+                <h2>{days[dia] + ',' + data}</h2>
+                {(finished === 0) ? <Msg color="#bababa">Nenhum hábito concluído ainda</Msg> : <Msg color="#8FC549">{percentage.toFixed(0)}% dos habitos concluídos</Msg>}
             </Title>
             <TodayHabitList>
                 {todayList.map(habit =>
-                    <TodayHabitCard key={habit.id} color={(habit.done) ? "#8FC549" : "#E7E7E7"}>
+                    <TodayHabitCard sequence={habit.currentSequence} HighSequence={habit.highestSequence} key={habit.id} color={(habit.done) ? "#8FC549" : "#E7E7E7"}>
                         <div>
                             <h3>{habit.name}</h3>
-                            <p>Sequencia atual: {habit.currentSequence}</p>
-                            <p>Seu record: {habit.highestSequence}</p>
+                            <p>Sequencia atual: <span>{habit.currentSequence} {(habit.currentSequence > 1) ? 'dias' : 'dia'}</span></p>
+                            <p>Seu record: <span>{habit.highestSequence} {(habit.highestSequence > 1) ? 'dias' : 'dia'}</span></p>
                         </div>
                         <button disabled={(loading) && true} onClick={(habit.done) ? () => uncheckHabit(habit.id) : () => checkHabit(habit.id)}>
                             {(loading) ? 
@@ -199,6 +200,16 @@ const TodayHabitCard = styled.div`
         >p{
             font-size: 13px;
             color: #666666;
+        }
+        >:nth-child(2){
+            >span{
+                color: ${props => (props.color === "#8FC549") ? "#8FC549" : "#666666"};
+            }
+        }
+        >:nth-child(3){
+            >span{
+                color: ${props => (props.sequence === props.HighSequence && props.HighSequence > 0) ? "#8FC549" : "#666666"};
+            }
         }
     }
 

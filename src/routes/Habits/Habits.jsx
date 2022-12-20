@@ -70,7 +70,7 @@ export default function Habits() {
                         height="50"
                         width="100"
                         radius="9"
-                        color="#000000"
+                        color="#52B6FF"
                         ariaLabel="three-dots-loading"
                         wrapperStyle={{}}
                         wrapperClassName=""
