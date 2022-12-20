@@ -12,7 +12,7 @@ export default function Habits() {
     const user = JSON.parse(localStorage.getItem('user'))
     const token = user.token
 
-    const { List, setList, update, setTodayList, todayList } = useContext(GlobalContext)
+    const { List, setList, update, setTodayList, setFinished, setPercentage } = useContext(GlobalContext)
     const [adding, setAdding] = useState(false)
     const [loading, setLoading] = useState(true)
 
@@ -36,18 +36,32 @@ export default function Habits() {
     useEffect(() => {
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today'
         const config = {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
         }
-
+  
         const promise = axios.get(URL, config)
         promise.then(res => {
-            setTodayList(res.data)
-            setLoading(false)
+          setTodayList(res.data)
+  
+          const novo = res.data
+  
+          let aux = 0
+          let cont = 0
+          novo.forEach(elm => {
+            if (elm.done) {
+              aux = aux + 1
+            }
+            cont = cont + 1
+          });
+          setFinished((aux / cont) * 100)
+          setPercentage((aux / cont) * 100)
+  
+          setLoading(false)
+  
         })
         promise.catch(err => console.log(err))
-
     }, [])
 
     function newHabit() {
