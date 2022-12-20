@@ -43,6 +43,8 @@ const ImgPerfil = styled.img`
     width: 51px;
     height: 51px;
 
+    object-fit: cover;
+
     /* background-image: url(${props => props.img});
     background-position: center;
     background-size: cover; */
