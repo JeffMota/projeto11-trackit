@@ -58,6 +58,11 @@ export default function NewHabit({ setAdding }) {
 
     function sendHabit(e) {
         e.preventDefault()
+        if(name === ''){
+            alert("Você deve preencher o campo de nome")
+            return
+        }
+        
         setLoading(true)
 
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
@@ -69,10 +74,7 @@ export default function NewHabit({ setAdding }) {
 
         const promise = axios.post(URL, formInfos, config)
         promise.then(res => {
-            if (!adding) {
-                setAdding(true)
-            }
-            else setAdding(false)
+            setAdding(false)
             getList(res.data)})
         promise.catch(err => {
             setName('')
@@ -88,8 +90,7 @@ export default function NewHabit({ setAdding }) {
             <HabitName>
                 <input
                     data-test="habit-name-input"
-                    disabled={(loading) && true}
-                    required
+                    disabled={loading}
                     value={name}
                     onChange={(e) => changeName(e.target.value)}
                     placeholder="nome do hábito"
@@ -98,7 +99,7 @@ export default function NewHabit({ setAdding }) {
                     {daysList.map(day =>
                         <DaysBtn
                             data-test="habit-day"
-                            disabled={(loading) && true}
+                            disabled={loading}
                             key={day.id}
                             selected={(selectedDays.includes(day.id)) ? true : false}
                             onClick={() => selectDay(day.id)}
@@ -110,11 +111,11 @@ export default function NewHabit({ setAdding }) {
             <ButtonsCont>
                 <Cancel
                     data-test="habit-create-cancel-btn"
-                    disabled={(loading) && true}
+                    disabled={loading}
                     onClick={() => setAdding(false)}
                     type="button">Cancelar
                 </Cancel>
-                <Save data-test="habit-create-save-btn" opacity={(loading) ? '0.8' : '1'} disabled={(loading) && true} type="submit">
+                <Save data-test="habit-create-save-btn" opacity={(loading) ? '0.8' : '1'} disabled={loading} type="submit">
                     {(loading) ?
                         <ThreeDots
                             height="15"

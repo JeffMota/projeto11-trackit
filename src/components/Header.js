@@ -8,7 +8,7 @@ export default function Header() {
     return (
         <HeaderContainer data-test="header">
             <ImgLogo src={logo}></ImgLogo>
-            <ImgPerfil img={user.image} ></ImgPerfil>
+            <ImgPerfil src={user.image} ></ImgPerfil>
         </HeaderContainer>
     )
 }
@@ -38,13 +38,13 @@ const ImgLogo = styled.img`
     width: 97px;
     height: 35px;
 `
-const ImgPerfil = styled.div`
+const ImgPerfil = styled.img`
     display: block;
     width: 51px;
     height: 51px;
 
-    background-image: url(${props => props.img});
+    /* background-image: url(${props => props.img});
     background-position: center;
-    background-size: cover;
+    background-size: cover; */
     border-radius: 50%;
 `

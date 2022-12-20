@@ -16,7 +16,8 @@ export default function Today() {
         'Terça',
         'Quarta',
         'Quinta',
-        'Sexta'
+        'Sexta',
+        'Sabado'
     ]
     const { todayList, setTodayList, loading, user, update, setLoading, setFinished, setPercentage, finished, setUpdate, percentage } = useContext(GlobalContext)
     
@@ -120,7 +121,7 @@ export default function Today() {
                         <div>
                             <h3 data-test="today-habit-name" >{habit.name}</h3>
                             <p data-test="today-habit-sequence" >Sequencia atual: <span>{habit.currentSequence} {(habit.currentSequence > 1) ? 'dias' : 'dia'}</span></p>
-                            <p data-test="today-habit-record " >Seu record: <span>{habit.highestSequence} {(habit.highestSequence > 1) ? 'dias' : 'dia'}</span></p>
+                            <p data-test="today-habit-record" >Seu record: <span>{habit.highestSequence} {(habit.highestSequence > 1) ? 'dias' : 'dia'}</span></p>
                         </div>
                         <button data-test="today-habit-check-btn" disabled={(loading) && true} onClick={(habit.done) ? () => uncheckHabit(habit.id) : () => checkHabit(habit.id)}>
                             {(loading) ? 
