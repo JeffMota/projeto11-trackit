@@ -105,7 +105,7 @@ export default function NewHabit({ setAdding }) {
                     onClick={() => setAdding(false)}
                     type="button">Cancelar
                 </Cancel>
-                <Save disabled={(loading) && true} type="submit">
+                <Save opacity={(loading) ? '0.8': '1'} disabled={(loading) && true} type="submit">
                     {(loading) ?
                         <ThreeDots
                             height="15"
@@ -180,6 +180,8 @@ const ButtonsCont = styled.div`
 const Save = styled.button`
     width: 84px;
     height: 35px;
+
+    opacity: ${props => props.opacity};
 
     background-color: #52b6ff;
 
