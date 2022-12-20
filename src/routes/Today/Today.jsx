@@ -112,11 +112,11 @@ export default function Today() {
             <Header />
             <Title>
                 <h2 data-test="today" >{days[dia] + ',' + data}</h2>
-                {(finished === 0) ? <Msg data-test="today-counter" color="#bababa">Nenhum hábito concluído ainda</Msg> : <Msg data-test="today-counter" color="#8FC549">{percentage.toFixed(0)}% dos habitos concluídos</Msg>}
+                {((finished === 0 || (todayList === []))) ? <Msg data-test="today-counter" color="#bababa">Nenhum hábito concluído ainda</Msg> : <Msg data-test="today-counter" color="#8FC549">{percentage.toFixed(0)}% dos habitos concluídos</Msg>}
             </Title>
             <TodayHabitList>
                 {todayList.map(habit =>
-                    <TodayHabitCard data-test="today-habit-container " sequence={habit.currentSequence} HighSequence={habit.highestSequence} key={habit.id} color={(habit.done) ? "#8FC549" : "#E7E7E7"}>
+                    <TodayHabitCard data-test="today-habit-container" sequence={habit.currentSequence} HighSequence={habit.highestSequence} key={habit.id} color={(habit.done) ? "#8FC549" : "#E7E7E7"}>
                         <div>
                             <h3 data-test="today-habit-name" >{habit.name}</h3>
                             <p data-test="today-habit-sequence" >Sequencia atual: <span>{habit.currentSequence} {(habit.currentSequence > 1) ? 'dias' : 'dia'}</span></p>

@@ -6,7 +6,7 @@ export default function Header() {
     const user = JSON.parse(localStorage.getItem("user"))
 
     return (
-        <HeaderContainer data-test="header ">
+        <HeaderContainer data-test="header">
             <ImgLogo src={logo}></ImgLogo>
             <ImgPerfil img={user.image} ></ImgPerfil>
         </HeaderContainer>

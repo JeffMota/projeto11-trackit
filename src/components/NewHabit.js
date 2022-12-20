@@ -6,7 +6,7 @@ import { ThreeDots } from 'react-loader-spinner'
 
 export default function NewHabit({ setAdding }) {
 
-    const { formInfos, setFormInfos, user, setList, List, setUpdate, update, daysList } = useContext(GlobalContext)
+    const { formInfos, setFormInfos, user, setList, List, setUpdate, update, daysList, adding } = useContext(GlobalContext)
     const [selectedDays, setSelectedDays] = useState(formInfos.days)
     const [name, setName] = useState(formInfos.name)
     const [loading, setLoading] = useState(false)
@@ -68,7 +68,12 @@ export default function NewHabit({ setAdding }) {
         }
 
         const promise = axios.post(URL, formInfos, config)
-        promise.then(res => getList(res.data))
+        promise.then(res => {
+            if (!adding) {
+                setAdding(true)
+            }
+            else setAdding(false)
+            getList(res.data)})
         promise.catch(err => {
             setName('')
             setSelectedDays([])
@@ -93,6 +98,7 @@ export default function NewHabit({ setAdding }) {
                     {daysList.map(day =>
                         <DaysBtn
                             data-test="habit-day"
+                            disabled={(loading) && true}
                             key={day.id}
                             selected={(selectedDays.includes(day.id)) ? true : false}
                             onClick={() => selectDay(day.id)}
@@ -108,7 +114,7 @@ export default function NewHabit({ setAdding }) {
                     onClick={() => setAdding(false)}
                     type="button">Cancelar
                 </Cancel>
-                <Save data-test="habit-creat-save-btn" opacity={(loading) ? '0.8' : '1'} disabled={(loading) && true} type="submit">
+                <Save data-test="habit-create-save-btn" opacity={(loading) ? '0.8' : '1'} disabled={(loading) && true} type="submit">
                     {(loading) ?
                         <ThreeDots
                             height="15"
