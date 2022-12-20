@@ -39,7 +39,7 @@ export default function Login(){
             localStorage.setItem("user", JSON.stringify(res.data))
 
             setUser(res.data)
-            navigate("/habitos")
+            navigate("/hoje")
         })
         promise.catch(err => {
             console.log(err)
@@ -57,7 +57,7 @@ export default function Login(){
             <FormLogin onSubmit={e => sendLoginRequest(e)}>
                 <input data-test="email-input" disabled={loading} onChange={e => setEmail(e.target.value)} required placeholder="email" type="email"/>
                 <input data-test="password-input" disabled={loading} onChange={e => setPassword(e.target.value)} required placeholder="senha" type="password"/>
-                <button type="submit" >{loading ? <Loading /> : "Entrar"}</button>
+                <button disabled={loading} type="submit" >{loading ? <Loading /> : "Entrar"}</button>
             </FormLogin>
             <Link data-test="signup-link" to={"/cadastro"}>Não tem uma conta? Cadastre-se!</Link>
         </LoginContainer>

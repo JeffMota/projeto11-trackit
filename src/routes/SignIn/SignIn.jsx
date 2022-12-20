@@ -35,7 +35,7 @@ export default function Login(){
             navigate('/')
         })
         promise.catch(err => {
-            console.log(err)
+            alert(err.response.data.message)
             setLoading(false)
         })
 
@@ -47,11 +47,11 @@ export default function Login(){
                 <img src={logo} alt="logo"/>
             </LogoContainer>
             <FormSignIn onSubmit={e => sendSignInRequest(e)}>
-                <input data-test="email-input" onChange={e => setEmail(e.target.value)} required placeholder="email" type="email"/>
-                <input data-test="password-input" onChange={e => setPassword(e.target.value)} required placeholder="senha" type="password"/>
-                <input data-test="user-name-input" onChange={e => setName(e.target.value)} required placeholder="nome" type="text"/>
-                <input data-test="user-image-input" onChange={e => setImage(e.target.value)} required placeholder="foto" type="url"/>
-                <button data-test="signup-btn" type="submit" >{loading ? <Loading /> : "Cadastrar"}</button>
+                <input disabled={loading && true} data-test="email-input" onChange={e => setEmail(e.target.value)} required placeholder="email" type="email"/>
+                <input disabled={loading && true} data-test="password-input" onChange={e => setPassword(e.target.value)} required placeholder="senha" type="password"/>
+                <input disabled={loading && true} data-test="user-name-input" onChange={e => setName(e.target.value)} required placeholder="nome" type="text"/>
+                <input disabled={loading && true} data-test="user-image-input" onChange={e => setImage(e.target.value)} required placeholder="foto" type="url"/>
+                <button disabled={loading && true} data-test="signup-btn" type="submit" >{loading ? <Loading /> : "Cadastrar"}</button>
             </FormSignIn>
             <Link data-test="login-link" to={"/"}>Já tem uma conta? Faça login!</Link>
         </LoginContainer>

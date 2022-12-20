@@ -2,7 +2,7 @@ import Header from "../../components/Header";
 import Menu from "../../components/Menu";
 import styled from "styled-components";
 import dayjs from "dayjs";
-import { useContext } from "react";
+import { useEffect, useContext } from "react";
 import GlobalContext from "../../contexts/GlobalContext";
 import Check from "../../assets/img/Vector.png"
 import axios from "axios";
@@ -18,11 +18,43 @@ export default function Today() {
         'Quinta',
         'Sexta'
     ]
-    const { todayList, loading, user, update, setLoading, finished, setUpdate, percentage } = useContext(GlobalContext)
+    const { todayList, setTodayList, loading, user, update, setLoading, setFinished, setPercentage, finished, setUpdate, percentage } = useContext(GlobalContext)
     
 
     const dia = dayjs().day()
     const data = dayjs().format(' DD/MM')
+
+    // Carregar hábitos de hoje
+    useEffect(() => {
+        const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today'
+        const config = {
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
+        }
+  
+        const promise = axios.get(URL, config)
+        promise.then(res => {
+          setTodayList(res.data)
+  
+          const novo = res.data
+  
+          let aux = 0
+          let cont = 0
+          novo.forEach(elm => {
+            if (elm.done) {
+              aux = aux + 1
+            }
+            cont = cont + 1
+          });
+          setFinished((aux / cont) * 100)
+          setPercentage((aux / cont) * 100)
+  
+          setLoading(false)
+  
+        })
+        promise.catch(err => console.log(err))
+    }, [])
 
 
     //Marcar hábito como concluído
